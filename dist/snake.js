@@ -18,7 +18,7 @@ const resetSPBtn = document.getElementById("reset-sp-score-btn");
 const resetMPBtn = document.getElementById("reset-mp-score-btn");
 // Crown :)
 let crown = new Image();
-crown.src = "/img/crown.png";
+crown.src = "img/crown.png";
 // Directionality ENUM
 var Direction;
 (function (Direction) {

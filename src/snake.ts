@@ -27,7 +27,7 @@ const resetMPBtn = document.getElementById(
 
 // Crown :)
 let crown = new Image();
-crown.src = "/img/crown.png";
+crown.src = "img/crown.png";
 
 // Directionality ENUM
 enum Direction {
