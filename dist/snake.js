@@ -1811,15 +1811,19 @@ let Game = /** @class */ (() => {
         // Player 1 Snake Controls
         controlSnakes(e) {
             if (e.key === "Up" || e.key === "ArrowUp") {
+                e.preventDefault();
                 this.p1_snake.setFacing(Direction.UP);
             }
             if (e.key === "Down" || e.key === "ArrowDown") {
+                e.preventDefault();
                 this.p1_snake.setFacing(Direction.DOWN);
             }
             if (e.key === "Left" || e.key === "ArrowLeft") {
+                e.preventDefault();
                 this.p1_snake.setFacing(Direction.LEFT);
             }
             if (e.key === "Right" || e.key === "ArrowRight") {
+                e.preventDefault();
                 this.p1_snake.setFacing(Direction.RIGHT);
             }
             if (this.p2_snake) {
@@ -2028,7 +2032,9 @@ function memResetMPWins() {
     Game.refreshScreen();
 }
 // Keyboard event handlers for snake movement
-document.addEventListener("keydown", (e) => Game.current.controlSnakes(e));
+document.addEventListener("keydown", (e) => {
+    Game.current.controlSnakes(e);
+});
 // Toggle the CSS for the associated button and set the internal variable
 function selectMapBtn(n) {
     for (let btn of mapBtns) {

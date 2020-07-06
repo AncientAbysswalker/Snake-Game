@@ -132,33 +132,27 @@ canvas {
   background: #660066;
 }
 
-.Rtable {
+.food-table {
   display: flex;
   margin: 0;
   padding: 0;
 }
 
-.Rtable-col-left {
+.food-table-col-left {
   margin-left: 15px;
   margin-right: 10px;
 }
 
-.Rtable-col-left > * {
+.food-table-col-left > * {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 25px;
 }
 
-.Rtable-col-right > * {
+.food-table-col-right > * {
   display: flex;
   align-items: center;
   justify-content: left;
   height: 25px;
-}
-
-/* Table column sizing
-================================== */
-.Rtable > .Rtable-cell {
-  width: 50%;
 }
