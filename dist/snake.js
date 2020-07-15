@@ -1616,8 +1616,9 @@ let Game = /** @class */ (() => {
                 }
             }
         }
+        // Load map data into the grid
         loadMap(index) {
-            //Load map
+            //Load map data
             let load = mapDatas[index];
             // Load walls
             if (load.hasOwnProperty("walls")) {
@@ -1665,11 +1666,13 @@ let Game = /** @class */ (() => {
         static outOfBounds(p) {
             return p.x < 0 || p.y < 0 || p.x >= Game.cols || p.y >= Game.rows;
         }
+        // Decrease the game refresh delay (making the game faster)
         static increaseGameSpeed() {
             if (Game.refresh_delay > 0) {
                 Game.refresh_delay *= 0.9;
             }
         }
+        // Reset the game speed to default (starting speed)
         static resetGameSpeed() {
             Game.refresh_delay = Game.default_refresh_delay;
         }
@@ -1689,15 +1692,18 @@ let Game = /** @class */ (() => {
                 }
                 Game.current.draw();
             }
+            // Check game over condition and run game over if needed
             if (Game.current.isGameOver()) {
                 Game.current.runGameOver();
             }
             // Loop update with a timeout
             setTimeout(() => requestAnimationFrame(this.update.bind(this)), Game.refresh_delay);
         }
+        // Method to force refresh the screen
         static refreshScreen() {
             Game.force_frame = true;
         }
+        // Check if the game over conditions are met
         isGameOver() {
             return ((!Game.isMP && this.p1_snake.disabled) ||
                 (Game.isMP &&
@@ -1707,6 +1713,7 @@ let Game = /** @class */ (() => {
                         (this.p2_snake.disabled &&
                             this.p2_snake.score < this.p1_snake.score))));
         }
+        // Run the game over sequence
         runGameOver() {
             // If single-player, check if new high-score is achieved
             if (!Game.isMP) {
@@ -1733,6 +1740,7 @@ let Game = /** @class */ (() => {
         draw() {
             // clear canvas
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // Draw new frame
             this.drawScore();
             this.drawGameGrid();
         }
@@ -1782,6 +1790,7 @@ let Game = /** @class */ (() => {
                 ctx.fillText(`P2 Score: ${this.p2_snake.score}`, canvas.width - 30, 30); //
             }
         }
+        // Draw a 'pixel', a tile on the game grid
         static drawPixel(p, color) {
             ctx.beginPath();
             ctx.rect(Game.pixel_size * p.x, Game.pixel_size * p.y + Game.header_size, Game.pixel_size, Game.pixel_size);
@@ -1858,8 +1867,10 @@ let Game = /** @class */ (() => {
     Game.currentMap = 0;
     return Game;
 })();
+// Snake class that controls the movement and collision of the snake
 let Snake = /** @class */ (() => {
     class Snake {
+        // Constructor
         constructor(id, p1) {
             this.head = p1;
             this.tail = p1;
@@ -1869,8 +1880,8 @@ let Snake = /** @class */ (() => {
             this.current_facing = Direction.NONE;
             this.disabled = false;
             this.score = 0;
-            //Game.current.setObject(this.head, new SnakeSegment());
         }
+        // Move the snake forward one space
         move() {
             // Don't attempt to move if there is NONE facing or diabled!
             if (this.current_facing === Direction.NONE || this.disabled)
@@ -1918,6 +1929,7 @@ let Snake = /** @class */ (() => {
                 }
             }
         }
+        // Set the facing direction of the snake; cannot be back into the snake
         setFacing(dir) {
             if (dir !== opposingDirection(this.last_facing)) {
                 this.current_facing = dir;
@@ -1930,6 +1942,7 @@ let Snake = /** @class */ (() => {
 // Food pellet class
 let FoodPellet = /** @class */ (() => {
     class FoodPellet {
+        // Constructor
         constructor(value = 5) {
             this.value = value;
         }
@@ -1949,6 +1962,7 @@ class Wall extends GameEndingObject {
 }
 // Snake Segment Class
 class SnakeSegment extends GameEndingObject {
+    // Constructor
     constructor(id, next_segment = Direction.NONE) {
         super();
         this.next_segment = next_segment;
@@ -1961,10 +1975,7 @@ memLoadHighScores();
 memLoadMPWins();
 memLoadGameMode();
 Game.newGame();
-function endGame() {
-    Game.current.score = -1000;
-    Game.current.p1_snake.disabled = true;
-}
+// Function to add dimensioned objects
 function addVect(...vectors) {
     return vectors.reduce((a, b) => ({ x: a.x + b.x, y: a.y + b.y }));
 }

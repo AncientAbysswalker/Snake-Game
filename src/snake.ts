@@ -1676,8 +1676,9 @@ class Game {
     }
   }
 
+  // Load map data into the grid
   loadMap(index: number) {
-    //Load map
+    //Load map data
     let load = mapDatas[index];
 
     // Load walls
@@ -1741,12 +1742,14 @@ class Game {
     return p.x < 0 || p.y < 0 || p.x >= Game.cols || p.y >= Game.rows;
   }
 
+  // Decrease the game refresh delay (making the game faster)
   static increaseGameSpeed() {
     if (Game.refresh_delay > 0) {
       Game.refresh_delay *= 0.9;
     }
   }
 
+  // Reset the game speed to default (starting speed)
   static resetGameSpeed() {
     Game.refresh_delay = Game.default_refresh_delay;
   }
@@ -1767,6 +1770,7 @@ class Game {
       Game.current.draw();
     }
 
+    // Check game over condition and run game over if needed
     if (Game.current.isGameOver()) {
       Game.current.runGameOver();
     }
@@ -1778,10 +1782,12 @@ class Game {
     );
   }
 
+  // Method to force refresh the screen
   static refreshScreen() {
     Game.force_frame = true;
   }
 
+  // Check if the game over conditions are met
   isGameOver() {
     return (
       (!Game.isMP && this.p1_snake.disabled) ||
@@ -1794,6 +1800,7 @@ class Game {
     );
   }
 
+  // Run the game over sequence
   runGameOver() {
     // If single-player, check if new high-score is achieved
     if (!Game.isMP) {
@@ -1820,6 +1827,7 @@ class Game {
     // clear canvas
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Draw new frame
     this.drawScore();
     this.drawGameGrid();
   }
@@ -1878,6 +1886,7 @@ class Game {
     }
   }
 
+  // Draw a 'pixel', a tile on the game grid
   static drawPixel(p: Point, color: string) {
     ctx.beginPath();
     ctx.rect(
@@ -1945,6 +1954,7 @@ class Game {
   }
 }
 
+// Snake class that controls the movement and collision of the snake
 class Snake {
   head: Point;
   tail: Point;
@@ -1958,6 +1968,7 @@ class Snake {
 
   static color = [Colors.PINK, Colors.GREEN];
 
+  // Constructor
   constructor(id: number, p1: Point) {
     this.head = p1;
     this.tail = p1;
@@ -1969,10 +1980,9 @@ class Snake {
     this.disabled = false;
 
     this.score = 0;
-
-    //Game.current.setObject(this.head, new SnakeSegment());
   }
 
+  // Move the snake forward one space
   move() {
     // Don't attempt to move if there is NONE facing or diabled!
     if (this.current_facing === Direction.NONE || this.disabled) return;
@@ -2024,6 +2034,7 @@ class Snake {
     }
   }
 
+  // Set the facing direction of the snake; cannot be back into the snake
   setFacing(dir: Direction) {
     if (dir !== opposingDirection(this.last_facing)) {
       this.current_facing = dir;
@@ -2039,9 +2050,9 @@ class FoodPellet {
     25: Colors.RED,
     100: Colors.MAGIC,
   };
-
   value: number;
 
+  // Constructor
   constructor(value = 5) {
     this.value = value;
   }
@@ -2056,6 +2067,7 @@ class SnakeSegment extends GameEndingObject {
   next_segment: Direction;
   id: number;
 
+  // Constructor
   constructor(id: number, next_segment: Direction = Direction.NONE) {
     super();
     this.next_segment = next_segment;
@@ -2070,11 +2082,7 @@ memLoadMPWins();
 memLoadGameMode();
 Game.newGame();
 
-function endGame() {
-  Game.current.score = -1000;
-  Game.current.p1_snake.disabled = true;
-}
-
+// Function to add dimensioned objects
 function addVect(...vectors: Dimensioned[]) {
   return vectors.reduce((a, b) => ({ x: a.x + b.x, y: a.y + b.y }));
 }
