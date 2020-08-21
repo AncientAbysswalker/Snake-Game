@@ -1,5 +1,7 @@
 # Snake Game
 
+![Example gif](https://raw.githubusercontent.com/AncientAbysswalker/Snake-Game/master/md/header.gif)
+
 ## Working Demo
 
 A working demo can be found live here:
